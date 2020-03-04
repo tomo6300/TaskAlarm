@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/task_card"
+        android:layout_width="match_parent"
+        android:layout_height="88dp"
+        android:background="@drawable/frame_style"
+        android:elevation="0dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:textColor="@android:color/black">
+
+
+        <ImageView
+            android:id="@+id/task_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="6"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/task_title"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:text="TextView"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/task_deadline"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:text="TextView"/>
+            
+            <TextView
+                android:id="@+id/small_task_judge"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:paddingRight="4dp"
+                android:text="TextView"
+                />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/over_flow"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="overflow"
+            android:padding="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/more_vert" />
+
+    </LinearLayout>
+
+</LinearLayout>

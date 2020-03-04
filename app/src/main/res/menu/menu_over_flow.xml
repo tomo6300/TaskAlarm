@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/achieve"
+        android:icon="@drawable/achieve"
+        android:orderInCategory="2"
+        app:showAsAction="ifRoom"
+        android:title="達成" />
+
+    <item
+        android:id="@+id/delete"
+        android:icon="@drawable/delete"
+        android:orderInCategory="3"
+        app:showAsAction="ifRoom"
+        android:title="削除" />
+
+</menu>
