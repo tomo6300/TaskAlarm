@@ -2,11 +2,6 @@ package com.yagi.android.taskalarm.Adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -27,6 +22,8 @@ import com.yagi.android.taskalarm.TaskActivity;
 import java.util.Calendar;
 import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.PopupMenu;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -39,7 +36,7 @@ public class SmallTaskAdapter extends ArrayAdapter<SmallTask> {
 
     SmallTask smallTask1;
 
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
 
     public SmallTaskAdapter(Context context, int textViewResourceId, List<SmallTask> objects) {
         super(context, textViewResourceId, objects);
@@ -60,10 +57,6 @@ public class SmallTaskAdapter extends ArrayAdapter<SmallTask> {
 
         smallTask1 = getItem(position);
         Log.d("Sitem",String.valueOf(getItem(position)));
-
-//        Log.d("position",String.valueOf(position));
-//        Log.d("id", smallTask1.id);
-//        Log.d("idDate", idDate);
 
 
         ((TextView) convertView.findViewById(R.id.task_title)).setText(smallTask1.title);
@@ -259,13 +252,6 @@ public class SmallTaskAdapter extends ArrayAdapter<SmallTask> {
                                     SmallTaskAdapter adapter = new SmallTaskAdapter(getContext(), R.layout.layout_task, items);
                                     Log.d("results",String.valueOf(results));
                                     TaskActivity.detailListView.setAdapter(adapter);
-//                                    smallTask1 = getItem(position);
-//                                    Intent intent = new Intent(getContext(), SmallTaskActivity.class);
-//                                    intent.putExtra("updateDate", smallTask1.updateDate);
-//                                    intent.putExtra("reuse",1);
-//                                    getContext().startActivity(intent);
-
-
 
                                     return true;
 
@@ -317,13 +303,6 @@ public class SmallTaskAdapter extends ArrayAdapter<SmallTask> {
             }
         });
 
-
-
-
-//        TextView titleText = (TextView) convertView.findViewById(R.id.task_title);
-//
-//        titleText.setText(smallTask.title);
-
         return convertView;
 
     }
@@ -333,12 +312,7 @@ public class SmallTaskAdapter extends ArrayAdapter<SmallTask> {
         int calb = line.indexOf("月");
         int calc = line.indexOf("日");
         int cald = line.indexOf(":");
-//        Log.d("年", "[" + line.substring(0,cala) + "]");
-//        Log.d("月", "[" + line.substring(cala+1,calb) + "]");
-//        Log.d("日", "[" + line.substring(calb+1,calc) + "]");
-//        Log.d("時", "[" + line.substring(calc+1,cald) + "]");
-//        Log.d("分", "[" + line.substring(cald+1) + "]");
-        calendar.set(Integer.parseInt(line.substring(0,cala)), Integer.parseInt(line.substring(cala+1,calb)) - 1, Integer.parseInt(line.substring(calb+1,calc)),Integer.parseInt(line.substring(calc+1,cald)), Integer.parseInt(line.substring(cald+1)),00);
+        calendar.set(Integer.parseInt(line.substring(0,cala)), Integer.parseInt(line.substring(cala+1,calb)) - 1, Integer.parseInt(line.substring(calb+1,calc)),Integer.parseInt(line.substring(calc+1,cald)), Integer.parseInt(line.substring(cald+1)), 00);
     }
 
 }

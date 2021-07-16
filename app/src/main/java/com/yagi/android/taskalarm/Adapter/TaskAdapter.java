@@ -3,11 +3,6 @@ package com.yagi.android.taskalarm.Adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.PopupMenu.OnMenuItemClickListener;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -34,6 +29,8 @@ import com.yagi.android.taskalarm.TaskActivity;
 import java.util.Calendar;
 import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.PopupMenu;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -58,27 +55,6 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         super(context, textViewResourceId, objects);
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
-
-    /*public void setList(List<Task> categories) {
-        this.tasks = categories;
-    }
-
-    public void add(Task task) {
-        this.tasks.add(task);
-        notifyDataSetChanged();
-    }*/
-
-    /*public int getCount() {
-        return this.tasks.size();
-    }*/
-
-    /*public Object getItem(int position) {
-        return this.tasks.get(position);
-    }*/
-
-    /*public long getItemId(int position) {
-        return ((Task) this.tasks.get(position)).getId().longValue();
-    }*/
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -123,24 +99,10 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         Calendar cal5 = Calendar.getInstance();
         extraction(safeLine, cal5);
 
-        /*int cal3a = deadline.indexOf("年");
-        int cal3b = deadline.indexOf("月");
-        cal3.set(Integer.parseInt(deadline.substring(0,cal3a-1)),);*/
-
-
-        // 2つの日時を比較し、結果によってメッセージを変えます
-//        Log.d("cal1", String.valueOf(cal1));
-//        Log.d("cal2", String.valueOf(cal2));
-//        Log.d("cal3", String.valueOf(cal3));
-//        Log.d("cal4", String.valueOf(cal4));
-//        Log.d("cal5", String.valueOf(cal5));
-
         int diff = cal2.compareTo(cal3);
         int diff2 = cal2.compareTo(cal4);
         int diff3 = cal2.compareTo(cal5);
-//        Log.d("diff", String.valueOf(diff));
-//        Log.d("diff2", String.valueOf(diff2));
-//        Log.d("diff3", String.valueOf(diff3));
+
         if (task.achieve.equals(String.valueOf(1))){
             ((ImageView) v.findViewById(R.id.task_image)).setImageResource(R.drawable.achieve_gold);
         } else if (diff > 0){
@@ -172,8 +134,6 @@ public class TaskAdapter extends ArrayAdapter<Task> {
             ((TextView) v.findViewById(R.id.small_task_judge)).setText("締切の近い小タスクあり");
             //small_task_judge.setBackgroundColor(rgb(255, 235, 59));
             ((TextView) v.findViewById(R.id.small_task_judge)).setTextColor(rgb(230, 81, 0));
-        } else {
-            //((TextView) v.findViewById(R.id.small_task_judge)).setVisibility(View.GONE);
         }
 
         deadPoint = passPoint = safePoint = 0;
@@ -193,7 +153,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
                 PopupMenu popup = new PopupMenu(getContext(), v);
                 if (task.achieve.equals(String.valueOf(0))) {
                     popup.getMenuInflater().inflate(R.menu.menu_over_flow, popup.getMenu());
-                    popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         public boolean onMenuItemClick(final MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.achieve:
@@ -309,7 +269,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 
                 } else {
                     popup.getMenuInflater().inflate(R.menu.menu_over_flow_achieve, popup.getMenu());
-                    popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         public boolean onMenuItemClick(final MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.reuse:
@@ -387,11 +347,6 @@ public class TaskAdapter extends ArrayAdapter<Task> {
         int calb = line.indexOf("月");
         int calc = line.indexOf("日");
         int cald = line.indexOf(":");
-//        Log.d("年", "[" + line.substring(0,cala) + "]");
-//        Log.d("月", "[" + line.substring(cala+1,calb) + "]");
-//        Log.d("日", "[" + line.substring(calb+1,calc) + "]");
-//        Log.d("時", "[" + line.substring(calc+1,cald) + "]");
-//        Log.d("分", "[" + line.substring(cald+1) + "]");
         calendar.set(Integer.parseInt(line.substring(0,cala)), Integer.parseInt(line.substring(cala+1,calb)) - 1, Integer.parseInt(line.substring(calb+1,calc)),Integer.parseInt(line.substring(calc+1,cald)), Integer.parseInt(line.substring(cald+1)),00);
     }
 
@@ -437,8 +392,6 @@ public class TaskAdapter extends ArrayAdapter<Task> {
                 passPoint++;
             } else if (diff3 > 0){
                 safePoint++;
-            } else {
-
             }
         }
 

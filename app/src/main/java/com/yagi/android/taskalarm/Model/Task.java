@@ -21,7 +21,7 @@ public class Task extends RealmObject {
     public String deadline;
     public String updateDate;
 
-    public RealmList<SmallTask> SmallTasks;
+    public RealmList SmallTasks;
 
     public String id;
     public String achieve;

@@ -9,13 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Layout;
 import android.util.Log;
@@ -47,6 +41,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
@@ -59,7 +58,6 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
 
     private SmallTaskAdapter smallTaskAdapter;
 
-    private Toolbar toolbar;
     private EditText titleEditText;
     private LinearLayout deadlineLayout;
     private LinearLayout passLayout;
@@ -70,7 +68,6 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
     private TextView deadlineHourTextView;
     private TextView passHourTextView;
     private TextView safeHourTextView;
-    private TextView emptyTextView;
     public static ListView detailListView;
 
     private int date;
@@ -95,7 +92,7 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
 
         //setTitle( "タスクを作る" );
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         titleEditText = (EditText) findViewById(R.id.title);
         deadlineLayout = (LinearLayout) findViewById(R.id.layout_deadline);
         passLayout = (LinearLayout) findViewById(R.id.layout_pass);
@@ -106,7 +103,7 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
         deadlineHourTextView = (TextView) findViewById(R.id.time_deadline_hm);
         passHourTextView = (TextView) findViewById(R.id.time_pass_hm);
         safeHourTextView = (TextView) findViewById(R.id.time_safe_hm);
-        emptyTextView = (TextView) findViewById(R.id.emptyTextView);
+        TextView emptyTextView = (TextView) findViewById(R.id.emptyTextView);
         detailListView = (ListView) findViewById(R.id.small_task_list);
 
         Intent i = getIntent();
@@ -124,8 +121,10 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
         int fitSize = (int)(actionBarSize * 0.5);
         styledAttributes.recycle();
         Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.back, null);
+        assert drawable != null;
         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
         Drawable newdrawable = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, fitSize, fitSize, true));
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setHomeButtonEnabled(true);
@@ -156,181 +155,6 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
             }
         });
 
-//        detailListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                final SmallTask smallTask1 = (SmallTask) adapterView.getItemAtPosition(position);
-//                PopupMenu popup = new PopupMenu(TaskActivity.this, view);
-//                Log.d("popup","a");
-//                if (smallTask1.achieve.equals(String.valueOf(0))) {
-//                    popup.getMenuInflater().inflate(R.menu.menu_over_flow, popup.getMenu());
-//                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//                        public boolean onMenuItemClick(final MenuItem item) {
-//                            switch (item.getItemId()) {
-//                                case R.id.achieve:
-//                                    //smallTask1 = realm.where(SmallTask.class).equalTo("updateDate", smallTask1.updateDate).findFirst();
-//                                    realm.executeTransaction(new Realm.Transaction() {
-//                                        @Override
-//                                        public void execute(Realm realm) {
-//                                            //smallTask1 = getItem(position);
-//                                            //smallTask1 = realm.where(SmallTask.class).equalTo("updateDate", smallTask1.updateDate).findFirst();
-//                                            Log.d("smalltask",String.valueOf(smallTask1));
-//                                            smallTask1.achieve = String.valueOf(1);
-//                                        }
-//                                    });
-//                                    setMemoList();
-////                                    RealmResults<SmallTask> results = realm.where(SmallTask.class).equalTo("id",idDate).findAll();
-////                                    List<SmallTask> items = realm.copyFromRealm(results);
-////                                    SmallTaskAdapter adapter = new SmallTaskAdapter(getContext(), R.layout.layout_task, items);
-////                                    Log.d("results",String.valueOf(results));
-////                                    TaskActivity.detailListView.setAdapter(adapter);
-//                                    AlertDialog.Builder alertDlg = new AlertDialog.Builder(TaskActivity.this);
-//                                    alertDlg.setTitle("小タスク達成！");
-//                                    alertDlg.setMessage("この調子！");
-//                                    alertDlg.setPositiveButton(
-//                                            "OK",
-//                                            new DialogInterface.OnClickListener() {
-//                                                public void onClick(DialogInterface dialog, int which) {
-//                                                    // OK ボタンクリック処理
-//
-//                                                }
-//                                            });
-//                                    alertDlg.setNegativeButton(
-//                                            "元に戻す",
-//                                            new DialogInterface.OnClickListener() {
-//                                                public void onClick(DialogInterface dialog, int which) {
-//                                                    // Cancel ボタンクリック処理
-//                                                    realm.executeTransaction(new Realm.Transaction() {
-//                                                        @Override
-//                                                        public void execute(Realm realm) {
-//                                                            //smallTask1 = getItem(position);
-//                                                            //smallTask1 = realm.where(SmallTask.class).equalTo("updateDate", smallTask1.updateDate).findFirst();
-//                                                            smallTask1.achieve = String.valueOf(0);
-//                                                        }
-//                                                    });
-//                                                    Log.d("achieve", smallTask1.achieve);
-//                                                    setMemoList();
-////                                                    RealmResults<SmallTask> results = realm.where(SmallTask.class).equalTo("id",idDate).findAll();
-////                                                    List<SmallTask> items = realm.copyFromRealm(results);
-////                                                    SmallTaskAdapter adapter = new SmallTaskAdapter(TaskActivity.this, R.layout.layout_task, items);
-////                                                    TaskActivity.detailListView.setAdapter(adapter);
-//                                                }
-//                                            });
-//
-//                                    // 表示
-//                                    alertDlg.create().show();
-//
-//                                    return true;
-//
-//                                case R.id.delete:
-//                                    AlertDialog.Builder alertDlg2 = new AlertDialog.Builder(TaskActivity.this);
-//                                    alertDlg2.setTitle("本当に削除しますか？");
-//                                    alertDlg2.setMessage("一度削除すると元には戻りません");
-//                                    alertDlg2.setPositiveButton(
-//                                            "削除する",
-//                                            new DialogInterface.OnClickListener() {
-//                                                public void onClick(DialogInterface dialog, int which) {
-//                                                    // OK ボタンクリック処理
-//                                                    realm.executeTransaction(new Realm.Transaction() {
-//                                                        @Override
-//                                                        public void execute(Realm realm) {
-//                                                            //smallTask1 = getItem(position);
-//                                                            //Log.d("item",String.valueOf(item.getItemId()));
-//                                                            //SmallTask smallTask = getItem(position);
-//                                                            //smallTask1 = realm.where(SmallTask.class).equalTo("updateDate", smallTask1.updateDate).findFirst();
-//                                                            //Log.d("smallTask", String.valueOf(position));
-//                                                            smallTask1.deleteFromRealm();
-//                                                        }
-//                                                    });
-//                                                    setMemoList();
-////                                                    RealmResults<SmallTask> results = realm.where(SmallTask.class).equalTo("id",idDate).findAll();
-////                                                    List<SmallTask> items = realm.copyFromRealm(results);
-////                                                    SmallTaskAdapter adapter = new SmallTaskAdapter(TaskActivity.this, R.layout.layout_task, items);
-////                                                    TaskActivity.detailListView.setAdapter(adapter);
-//                                                    Toast.makeText(TaskActivity.this,"削除しました",Toast.LENGTH_SHORT).show();
-//                                                }
-//                                            });
-//                                    alertDlg2.setNegativeButton(
-//                                            "キャンセル",
-//                                            new DialogInterface.OnClickListener() {
-//                                                public void onClick(DialogInterface dialog, int which) {
-//                                                    // Cancel ボタンクリック処理
-//                                                }
-//                                            });
-//
-//                                    // 表示
-//                                    alertDlg2.create().show();
-//
-//                            }
-//                            return true;
-//                        }
-//                    });
-//
-//                } else {
-//                    popup.getMenuInflater().inflate(R.menu.menu_over_flow_achieve, popup.getMenu());
-//                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//                        public boolean onMenuItemClick(final MenuItem item) {
-//                            switch (item.getItemId()) {
-//                                case R.id.reuse:
-//                                    //smallTask1 = getItem(position);
-//                                    Intent intent = new Intent(TaskActivity.this, SmallTaskActivity.class);
-//                                    intent.putExtra("updateDate", smallTask1.updateDate);
-//                                    intent.putExtra("reuse",1);
-//                                    //Log.d("position",task.updateDate);
-//                                    //intent.putExtra("card_id", task.getId());
-//                                    startActivity(intent);
-//
-//                                    //task.achieve = String.valueOf(0);
-//
-//                                    return true;
-//
-//                                case R.id.delete:
-//                                    AlertDialog.Builder alertDlg2 = new AlertDialog.Builder(TaskActivity.this);
-//                                    alertDlg2.setTitle("本当に削除しますか？");
-//                                    alertDlg2.setMessage("一度削除すると元には戻りません");
-//                                    alertDlg2.setPositiveButton(
-//                                            "削除する",
-//                                            new DialogInterface.OnClickListener() {
-//                                                public void onClick(DialogInterface dialog, int which) {
-//                                                    // OK ボタンクリック処理
-//                                                    realm.executeTransaction(new Realm.Transaction() {
-//                                                        @Override
-//                                                        public void execute(Realm realm) {
-//                                                            //smallTask1 = getItem(position);
-//                                                            //smallTask1 = realm.where(SmallTask.class).equalTo("updateDate", smallTask1.updateDate).findFirst();
-//                                                            smallTask1.deleteFromRealm();
-//                                                        }
-//                                                    });
-//                                                    setMemoList();
-////                                                    RealmResults<SmallTask> results = realm.where(SmallTask.class).equalTo("id",idDate).findAll();
-////                                                    List<SmallTask> items = realm.copyFromRealm(results);
-////                                                    SmallTaskAdapter adapter = new SmallTaskAdapter(TaskActivity.this, R.layout.layout_task, items);
-////                                                    TaskActivity.detailListView.setAdapter(adapter);
-//                                                    Toast.makeText(TaskActivity.this,"削除しました",Toast.LENGTH_SHORT).show();
-//                                                }
-//                                            });
-//                                    alertDlg2.setNegativeButton(
-//                                            "キャンセル",
-//                                            new DialogInterface.OnClickListener() {
-//                                                public void onClick(DialogInterface dialog, int which) {
-//                                                    // Cancel ボタンクリック処理
-//                                                }
-//                                            });
-//
-//                                    // 表示
-//                                    alertDlg2.create().show();
-//
-//                            }
-//                            return true;
-//                        }
-//                    });
-//
-//                }
-//
-//                popup.show();
-//                return true;
-//            }
-//        });
 
     }
 
@@ -758,15 +582,6 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
                     } else {
                         final Task task = realm.where(Task.class).equalTo("updateDate", getIntent().getStringExtra("updateDate")).findFirst();
 
-//                        if (reuse == 1) {
-//                            realm.executeTransaction(new Realm.Transaction() {
-//                                @Override
-//                                public void execute(Realm realm) {
-//                                    task.achieve = String.valueOf(0);
-//                                }
-//                            });
-//
-//                        }
 
                         RealmResults<SmallTask> results = realm.where(SmallTask.class).equalTo("id",task.id).findAll();
                         final RealmList<SmallTask> items = new RealmList<>();
@@ -842,8 +657,6 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
 
             } else {
                 change = 1;
-                //Log.d("change",title);
-                //Log.d("edit", titleEditText.getText().toString());
             }
             if (change == 1) {
                 AlertDialog.Builder alertDlg1 = new AlertDialog.Builder(this);

@@ -3,14 +3,15 @@ package com.yagi.android.taskalarm.Dialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
 import android.widget.DatePicker;
 
 import com.yagi.android.taskalarm.SmallTaskActivity;
 import com.yagi.android.taskalarm.TaskActivity;
 
 import java.util.Calendar;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 
 public class DatePickerDialogFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 

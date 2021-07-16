@@ -10,7 +10,7 @@ import android.content.Intent;
 
 
 public class DailyScheduler {
-    private Context context;
+    private final Context context;
 
     public DailyScheduler(Context context) {
         this.context = context;
@@ -28,7 +28,8 @@ public class DailyScheduler {
         PendingIntent action = PendingIntent.getService(context, service_id, intent,
                 PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager alarm = (AlarmManager) context
-                .getSystemService(context.ALARM_SERVICE);
+                .getSystemService(Context.ALARM_SERVICE);
+        assert alarm != null;
         alarm.setRepeating(AlarmManager.RTC,
                 duration_time,AlarmManager.INTERVAL_DAY, action);
     }
@@ -77,6 +78,7 @@ public class DailyScheduler {
                 PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarm = (AlarmManager) context
                 .getSystemService(Context.ALARM_SERVICE);
+        assert alarm != null;
         alarm.cancel(action);
     }
 }

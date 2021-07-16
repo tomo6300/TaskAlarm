@@ -8,12 +8,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -40,6 +35,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.res.ResourcesCompat;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -49,8 +49,6 @@ import static com.yagi.android.taskalarm.TaskActivity.idDate;
 public class SmallTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     public Realm realm;
-
-    private Toolbar toolbar;
 
     private EditText titleEditText;
     private LinearLayout deadlineLayout;
@@ -81,7 +79,7 @@ public class SmallTaskActivity extends AppCompatActivity implements DatePickerDi
 
         realm = Realm.getDefaultInstance();
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         titleEditText = (EditText) findViewById(R.id.title);
         deadlineLayout = (LinearLayout) findViewById(R.id.layout_deadline);
         passLayout = (LinearLayout) findViewById(R.id.layout_pass);
@@ -109,8 +107,10 @@ public class SmallTaskActivity extends AppCompatActivity implements DatePickerDi
         int fitSize = (int)(actionBarSize * 0.5);
         styledAttributes.recycle();
         Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.back, null);
+        assert drawable != null;
         Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
         Drawable newdrawable = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, fitSize, fitSize, true));
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setHomeButtonEnabled(true);
@@ -493,8 +493,6 @@ public class SmallTaskActivity extends AppCompatActivity implements DatePickerDi
 
             } else {
                 change = 1;
-//                Log.d("change",title);
-//                Log.d("edit", titleEditText.getText().toString());
             }
             if (change == 1) {
                 AlertDialog.Builder alertDlg1 = new AlertDialog.Builder(this);
